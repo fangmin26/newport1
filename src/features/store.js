@@ -9,14 +9,15 @@ import commonApp from "./mobile/commonApp";
 
 //admin
 import commonAdmin from "./admin/commonAdmin";
-import toyprjAdmin from "./admin/toyprjAdmin";
+import otherSlice from "./admin/otherSlice";
+
 
 const reducers = combineReducers({
   //app
   commonApp: commonApp,
   //admin
   commonAdmin: commonAdmin,
-  toyprjAdmin: toyprjAdmin,
+  other: otherSlice,
 });
 
 const persistConfig = {
