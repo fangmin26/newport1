@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/newport1/static/css/main.8a5ac70a.css",
+    "main.js": "/newport1/static/js/main.6b4bd9a6.js",
+    "static/media/sampleimage.jpg": "/newport1/static/media/sampleimage.5bdc8a3a66f35523dd58.jpg",
+    "static/media/checkon.svg": "/newport1/static/media/checkon.08d47c8e74b3f932ad59.svg",
+    "index.html": "/newport1/index.html",
+    "static/media/checkoff.svg": "/newport1/static/media/checkoff.f54eb7af7c005df3237d.svg",
+    "main.8a5ac70a.css.map": "/newport1/static/css/main.8a5ac70a.css.map",
+    "main.6b4bd9a6.js.map": "/newport1/static/js/main.6b4bd9a6.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8a5ac70a.css",
+    "static/js/main.6b4bd9a6.js"
+  ]
+}
