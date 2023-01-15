@@ -1,26 +1,44 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllPosting, getAllSubject, statePostingId } from '../../features/admin/otherSlice'
 import Navbar from './components/common/Navbar'
 import Sidebar from './components/common/Sidebar'
-
+import { useNavigate } from 'react-router-dom'
+import { adminSideTitle } from '../../features/admin/commonAdmin'
 
 const Tags = () => {
-  const tags = ["tag12345","tag2333","tag3","tag4","tag5","tag6","tag7","tag8","tag9"];
-  const [getTagName,setGetTagName] = useState(null)
-  // const tagsList = [
-  //   {
-  //     tagname:"tag12345",
-  //     tagLists :[
-  //       {
-  //         title:"title1",
-  //         content:"content1"
-  //       },
-  //       {
-  //         title:"title2",
-  //         content:"content2"
-  //       }
-  //     ]
-  //   },
-  // ];
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const tags = useSelector((state)=>state.other.subjectList)?.map((el)=>el.type)
+  const posts = useSelector((state)=>state.other.postingList)
+
+  const EachList = (el) =>{
+    return(
+      <>
+      <div className='flex gap-x-4'>
+        {el?.subjectnames?.length>0 &&
+          el.subjectnames?.map((list,idx)=>(
+            <span 
+            className={"py-2 px-6 text-sm font-semibold rounded inline-block "+
+            (idx%2 !==0? "bg-black text-white":"border text-black")}
+            key={list}>{list}</span>
+          ))
+        }
+      </div>
+      <span className='py-4 font-semibold text-lg block'>{el?.title}</span>
+    </>
+    )
+  }
+  const goPostingListId = (el) =>{
+    console.log(el)
+    navigate("/admin/postingId");dispatch(statePostingId(el.id));
+    localStorage.setItem('id',el.id)
+  }
+  useEffect(()=>{
+    dispatch(getAllSubject())
+    dispatch(getAllPosting())
+    dispatch(adminSideTitle('tags'));
+  },[dispatch])
 
   return (
     <div className='w-full h-screen'>
@@ -30,23 +48,20 @@ const Tags = () => {
         <ul className='border-b px-6 py-4 flex flex-wrap gap-4'>
           {tags?.map((el, idx)=>(
             <li key={idx}
-            onClick={()=>setGetTagName(el)}
+            // onClick={()=>setGetTagName(el)}
             className={"py-2 px-6 text-sm font-semibold rounded inline-block "+
               (idx%2 !==0? "bg-black text-white":"border text-black")
             }>{el}</li>
           ))}
         </ul>
         <ul className=''>
-            <li className='p-6 border-b'>
-              <span className='py-2 px-6 text-sm font-semibold rounded inline-block bg-black text-white'>tag</span>
-              <span className='py-4 font-semibold text-lg block'>subtitle1</span>
-              <p className='leading-4'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-            </li>
-            <li className='p-6 border-b'>
-            <span className='py-2 px-6 text-sm font-semibold rounded inline-block bg-black text-white'>tag</span>
-              <span className='py-4 font-semibold text-lg block'>subtitle1</span>
-              <p className='leading-4'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-            </li>
+            {posts?.map((el,idx)=>(
+              <li key={idx} className='p-6 border-b hover:bg-gray-100'
+              onClick={()=>goPostingListId(el)}
+              >
+              {EachList(el)}
+              </li>
+            ))}
         </ul>
       </div>
     </div>

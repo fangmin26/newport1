@@ -4,35 +4,37 @@ import { adminSideTitle } from '../../features/admin/commonAdmin'
 import Navbar from './components/common/Navbar'
 import Sidebar from './components/common/Sidebar'
 import Pagination from "pagination-peiss"
-import { getAllPosting, postingSearch } from '../../features/admin/otherSlice'
+import { getAllPosting, postingSearch, statePostingId } from '../../features/admin/otherSlice'
 import { useNavigate } from 'react-router-dom'
-import parse from "html-react-parser";
+
 const AdminMain = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch();
-  const searchPostingList = useSelector((state)=>state.other.postingList)
+  const searchPostingList = useSelector((state)=>state.other.postingList);
+  const goPostingListId = (el) =>{
+    console.log(el, el.id)
+    navigate("/admin/postingId");dispatch(statePostingId(el.id));
+    localStorage.setItem('id',el.id)
+  }
   useEffect(()=>{
     dispatch(adminSideTitle("/"))
     dispatch(postingSearch({search:""}))
   },[dispatch,adminSideTitle,getAllPosting])
   const page = 1;
-  const mainList = (el) =>{
-    console.log(el,">?")
-    let newCont = parse(el.content)
+
+  const mainList = (el,idx) =>{
     return( 
       <>
         <div className={'bg-gray-100 h-[250px] ' +el.src} ></div>
         <div className='p-4'>
           <p className='font-bold'>{el.title}</p>
-          {/* <p>{el.content}</p> */}
-          <p>{newCont}</p>
-          <ul className='flex gap-x-2'>
+            <ul className='flex gap-x-2'>
             {el.subjectnames?.map((elem,idx)=>
-            <li 
-            className='text-xs bg-gray-200 rounded p-1'
-            key={idx}>{elem}</li>
+              <li 
+              className={'text-xs rounded p-1'+ (idx%2?' bg-gray-400':' bg-gray-200')}
+              key={idx}>{elem}</li>
             )}
-          </ul>
+            </ul>
         </div>
       </>
     )
@@ -53,10 +55,8 @@ const AdminMain = () => {
             <ul className=' grid grid-cols-4 gap-4 p-6'>
               {searchPostingList?.map((el,idx)=>
               <li key={idx}
-              onClick={()=>navigate("/admin/postingId",{
-                state:el.id
-              })}
-              >{mainList(el)}</li>
+              onClick={()=>goPostingListId(el)}
+              >{mainList(el,idx)}</li>
               )}
             </ul>
             <div className='flex justify-center'>

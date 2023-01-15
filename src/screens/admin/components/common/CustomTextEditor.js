@@ -54,7 +54,7 @@ const CustomTextEditor = () => {
                     >click</span>
                 </div>
                 <div>
-                    <div className="border outline-none p-2 min-h-[300px]" id="editorDIV" contentEditable="true"
+                    <div className="border outline-none p-2 min-h-[300px]" id="editorDIV" contentEditable={true}
                     suppressContentEditableWarning
                     >
                     </div>
@@ -69,7 +69,8 @@ const CustomTextEditor = () => {
                     onClick={()=>{setOpenCode(false)}}
                     >닫기</div>    
                 </div>
-                <div id="code" contentEditable="true" className='w-full border p-2 mt-12 bg-black text-white outline-none h-[360px]'/>
+                <div id="code" contentEditable={true}
+                    suppressContentEditableWarning className='w-full border p-2 mt-12 bg-black text-white outline-none h-[360px]'/>
                 <div className='bg-gray-100 p-6 text-center font-bold'
                 onClick={()=>{
                     const textHtml = document.getElementById("code")

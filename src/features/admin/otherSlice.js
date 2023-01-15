@@ -6,6 +6,7 @@ const initialState = {
   postingList:null,
   subjectList:null,
   postingIdList:null,
+  postingId:0
 };
 
 export const postingAdd = createAsyncThunk(
@@ -52,12 +53,12 @@ export const subjectSearch = createAsyncThunk(
 export const getPostingId = createAsyncThunk(
   "getPostingId",
   async (param) => {
+    console.log(param)
     const res = await api.get("posting/postingById/"+param);
+    console.log(res)
     return res.data;
   }
 );
-
-
 
 export const getAllSubject = createAsyncThunk(
   "getAllSubject",
@@ -66,6 +67,7 @@ export const getAllSubject = createAsyncThunk(
     return res.data;
   }
 );
+
 const otherSlice = createSlice({
   name: "otherSlice",
   initialState: initialState,
@@ -76,60 +78,34 @@ const otherSlice = createSlice({
     changeSecondLb: (state, action) => {
       state.secondLabel = action.payload;
     },
+    statePostingId:(state,action)=> {
+      state.postingId = action.payload;
+    }
   },
-  extraReducers:{
-    [getAllPosting.fulfilled]:(state,action) =>{
+  extraReducers:(builder)=>{
+    builder.addCase(getAllPosting.fulfilled,(state,action)=>{
       state.status = "success"
       state.postingList = action.payload.postingList
-    },
-    [getAllPosting.pending]:(state) =>{
-      state.status = "pending"
-    },
-    [getAllPosting.rejected]:(state) =>{
-      state.status = "rejected"
-    },
-    [postingSearch.fulfilled]:(state,action) =>{
+    })
+    builder.addCase(postingSearch.fulfilled,(state,action)=>{
       state.status = "success"
       state.postingList = action.payload.postingList
-    },
-    [postingSearch.pending]:(state) =>{
-      state.status = "pending"
-    },
-    [postingSearch.rejected]:(state) =>{
-      state.status = "rejected"
-    },
-    [subjectSearch.fulfilled]:(state,action) =>{
+    })
+    builder.addCase(subjectSearch.fulfilled,(state,action)=>{
       state.status = "success"
       state.postingList = action.payload.postingList
-    },
-    [subjectSearch.pending]:(state) =>{
-      state.status = "pending"
-    },
-    [subjectSearch.rejected]:(state) =>{
-      state.status = "rejected"
-    },
-    [getPostingId.fulfilled]:(state,action) =>{
+    })
+    builder.addCase(getPostingId.fulfilled,(state,action)=>{
       state.status = "success"
       state.postingIdList = action.payload.postingList
-    },
-    [getPostingId.pending]:(state) =>{
-      state.status = "pending"
-    },
-    [getPostingId.rejected]:(state) =>{
-      state.status = "rejected"
-    },
-    [getAllSubject.fulfilled]:(state,action) =>{
+    })
+    builder.addCase(getAllSubject.fulfilled,(state,action)=>{
       state.status = "success"
       state.subjectList = action.payload.subjectList
-    },
-    [getAllSubject.pending]:(state) =>{
-      state.status = "pending"
-    },
-    [getAllSubject.rejected]:(state) =>{
-      state.status = "rejected"
-    },
+    })
+
   }
 });
-export const { changeFirstLb, changeSecondLb } = otherSlice.actions;
+export const { changeFirstLb, changeSecondLb, statePostingId } = otherSlice.actions;
 
 export default otherSlice.reducer;

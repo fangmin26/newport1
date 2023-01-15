@@ -13,6 +13,7 @@ const SidebarList = ({ el, idx }) => {
   const titleName = useSelector((state) => state.commonAdmin.sideTitle);
   const subTitleName = useSelector((state) => state.commonAdmin.sideSubtitle);
   const goLink = (param) => {
+    console.log(param)
     if (param === "title") {
       navigate(el.titleLink);
       dispatch(adminSideTitle(el.title));
@@ -37,7 +38,7 @@ const SidebarList = ({ el, idx }) => {
       dispatch(adminSideSubTitle(el.subtitle6));
     }
   };
-  console.log(titleName,">?")
+
   const subList = (subTitleName, elSubtitle, elSubtitleLink) => {
     return (
       <>
